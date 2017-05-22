@@ -14,6 +14,7 @@ public class WebServer {
 		System.out.println("WebServer starting up on port 80.");
 		System.out.println("(Press Ctrl-c to exit)");
 		try{
+			//Create the main server socket
 			s = new ServerSocket(80);
 		}catch(Exception e){
 			System.out.println("Error: " + e);
