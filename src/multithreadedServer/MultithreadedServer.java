@@ -1,5 +1,6 @@
 package multithreadedServer;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,6 +23,15 @@ public class MultithreadedServer implements Runnable{
 		}
 	}
 	
+	public synchronized void stop(){
+		isStopped = true;
+		try{
+			serverSocket.close();
+		}catch(IOException e){
+			throw new RuntimeException("Error closing server", e);
+		}
+	}
+	
 	public void run(){
 		synchronized(this){
 			runningThread = Thread.currentThread();
@@ -40,6 +50,7 @@ public class MultithreadedServer implements Runnable{
 			}
 			new Thread(new WorkerRunnable(clientSocket, "Multithreaded Server")).start();
 		}
+		System.out.println("Server Stopped.");
 	}
 	
 	public boolean isStopped(){
